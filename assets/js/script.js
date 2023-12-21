@@ -26,7 +26,7 @@ function searchFormSubmit(event) {
 }
 
 function fetchCity(city) {
-    fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${apiKey}`)
+    fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${apiKey}`)
         .then(res => {
             return res.json();
         }).then(res => {
@@ -37,7 +37,7 @@ function fetchCity(city) {
 }
 
 function fetch5Day(cityLat, cityLon) {
-    fetch(`http://api.openweathermap.org/data/2.5/forecast?lat=${cityLat}&lon=${cityLon}&units=metric&appid=1620ca2a4a57355a91aa2d8e36412f85`)
+    fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${cityLat}&lon=${cityLon}&units=metric&appid=1620ca2a4a57355a91aa2d8e36412f85`)
         .then(res => {
             return res.json();
         }).then(res => {
