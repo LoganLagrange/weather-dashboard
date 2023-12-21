@@ -21,10 +21,11 @@ searchForm.addEventListener(`submit`, searchFormSubmit);
 function searchFormSubmit(event) {
     event.preventDefault();
     fetchCity(searchInput.value);
-    createCityCard(searchInput.value);
+    pushCity(searchInput.value);
+    createCityCard();
 }
 
-function fetchCity(city){
+function fetchCity(city) {
     fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${apiKey}`)
         .then(res => {
             return res.json();
@@ -42,7 +43,7 @@ function fetch5Day(cityLat, cityLon) {
         }).then(res => {
             console.log(res);
             let currentDate
-            for(let i = 0; i < 5; i++) {
+            for (let i = 0; i < 5; i++) {
                 fiveDayCardsArr[i].innerHTML = ``
             }
             let index = -1;
@@ -68,7 +69,7 @@ function fetch5Day(cityLat, cityLon) {
 }
 
 function render5DayCard(date, icon, temp, wind, humidity, index, cityName) {
-    
+
     if (index >= 0 && index <= 4) {
         // Create elements
         const dateH4 = document.createElement(`h4`);
@@ -102,12 +103,31 @@ function render5DayCard(date, icon, temp, wind, humidity, index, cityName) {
 }
 
 let count = 0
-function createCityCard(city){
-    const cityCardDiv = document.getElementById(`city-card-div`)
-    const cityCard = document.createElement(`div`);
-    cityCard.textContent = city
-    cityCard.id = `city-card-id-${count}`
-    cityCard.classList.add(`card`, `col`, `mt-2`, `border`, `border-dark`, `rounded-0`, `m-2`, `bg-light`, `rounded-0`, `text-light`, `five-day-card`, `text-dark`)
-    cityCardDiv.appendChild(cityCard)
-    cityCard.addEventListener(`click`, ()=>fetchCity(city))
+const previousCities = [];
+
+function pushCity(city) {
+    previousCities.push(city);
+    localStorage.setItem(`previousCities`, JSON.stringify(previousCities))
 }
+
+function retrieveCities() {
+    const lSArray = localStorage.getItem(`previousCities`);
+    const storedArr = JSON.parse(lSArray);
+    return storedArr;
+}
+
+function createCityCard() {
+    let cities = retrieveCities();
+    console.log(cities);
+    for (let i = 0; i < cities.length; i++) {
+        const cityCardDiv = document.getElementById(`city-card-div`)
+        const cityCard = document.createElement(`div`);
+        cityCard.textContent = cities[i]
+        cityCard.id = `city-card-id-${count}`
+        cityCard.classList.add(`card`, `col`, `mt-2`, `border`, `border-dark`, `rounded-0`, `m-2`, `bg-light`, `rounded-0`, `text-light`, `five-day-card`, `text-dark`)
+        cityCardDiv.appendChild(cityCard)
+        cityCard.addEventListener(`click`, () => fetchCity(cities[i]))
+    }
+}
+
+createCityCard();
