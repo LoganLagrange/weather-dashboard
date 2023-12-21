@@ -25,6 +25,10 @@ N/A
         
 The page is used by searching a city in the search bar and checking the weather for it. Another city can be searched and you can toggle between any cities you have perviously searched by clicking on them in the history.
 
+The page can be accessed via this link: https://loganlagrange.github.io/weather-dashboard/
+
+![screenshot of the page](./assets/img/readme-screenshot.png)
+
 ## Contribution Guidelines
 
 N/A
