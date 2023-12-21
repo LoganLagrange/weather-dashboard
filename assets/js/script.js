@@ -20,13 +20,15 @@ searchForm.addEventListener(`submit`, searchFormSubmit);
 
 function searchFormSubmit(event) {
     event.preventDefault();
-    console.log(searchInput.value);
-    fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${searchInput.value}&limit=1&appid=${apiKey}`)
+    fetchCity(searchInput.value)
+}
+
+function fetchCity(city){
+    fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${apiKey}`)
         .then(res => {
             return res.json();
         }).then(res => {
             fetch5Day(res[0].lat, res[0].lon);
-            console.log(res[0].lat, res[0].lon);
         }).catch(err => {
             console.error(err);
         })
@@ -62,36 +64,22 @@ function fetch5Day(cityLat, cityLon) {
 }
 
 function render5DayCard(date, icon, temp, wind, humidity, index, cityName) {
-    console.log(index)
-    // Create elements needed on card
-    // const dateH4 = document.createElement(`h4`);
-    // const weatherIconImg = document.createElement(`img`)
-    // const tempP = document.createElement(`p`);
-    // const windP = document.createElement(`p`);
-    // const humidityP = document.createElement(`p`);
-
-    // // Set text of elements
-    // dateH4.textContent = date
-    // weatherIconImg.src = `https://openweathermap.org/img/wn/${icon}@2x.png`
-    // tempP.textContent = `Temp: ${temp}`
-    // windP.textContent = `Wind: ${wind}km/h`
-    // humidityP.textContent = `Humidity: ${humidity}%`
-
-    // Append to page
     if (index >= 0 && index <= 4) {
+        // Create elements
         const dateH4 = document.createElement(`h4`);
-    const weatherIconImg = document.createElement(`img`)
-    const tempP = document.createElement(`p`);
-    const windP = document.createElement(`p`);
-    const humidityP = document.createElement(`p`);
+        const weatherIconImg = document.createElement(`img`)
+        const tempP = document.createElement(`p`);
+        const windP = document.createElement(`p`);
+        const humidityP = document.createElement(`p`);
 
-    // Set text of elements
-    dateH4.textContent = date
-    weatherIconImg.src = `https://openweathermap.org/img/wn/${icon}@2x.png`
-    tempP.textContent = `Temp: ${temp}`
-    windP.textContent = `Wind: ${wind}km/h`
-    humidityP.textContent = `Humidity: ${humidity}%`
+        // Set text of elements
+        dateH4.textContent = date
+        weatherIconImg.src = `https://openweathermap.org/img/wn/${icon}@2x.png`
+        tempP.textContent = `Temp: ${temp}`
+        windP.textContent = `Wind: ${wind}km/h`
+        humidityP.textContent = `Humidity: ${humidity}%`
 
+        // Append to page
         fiveDayCardsArr[index].appendChild(dateH4);
         fiveDayCardsArr[index].appendChild(weatherIconImg);
         fiveDayCardsArr[index].appendChild(tempP);
@@ -99,13 +87,13 @@ function render5DayCard(date, icon, temp, wind, humidity, index, cityName) {
         fiveDayCardsArr[index].appendChild(humidityP);
 
         fiveDayCardsArr[index].style.display = `flex`;
-    } else if (index === -1){
+    } else if (index === -1) {
         cityWeatherName.textContent = `${cityName} ${date}`
         cityIcon.src = `https://openweathermap.org/img/wn/${icon}@2x.png`
         cityTemp.textContent = temp
         cityWind.textContent = wind
         cityHumid.textContent = humidity
     }
-
+ 
 
 }
