@@ -20,7 +20,8 @@ searchForm.addEventListener(`submit`, searchFormSubmit);
 
 function searchFormSubmit(event) {
     event.preventDefault();
-    fetchCity(searchInput.value)
+    fetchCity(searchInput.value);
+    createCityCard(searchInput.value);
 }
 
 function fetchCity(city){
@@ -41,6 +42,9 @@ function fetch5Day(cityLat, cityLon) {
         }).then(res => {
             console.log(res);
             let currentDate
+            for(let i = 0; i < 5; i++) {
+                fiveDayCardsArr[i].innerHTML = ``
+            }
             let index = -1;
             for (let i = 0; i < res.list.length; i++) {
                 let splitDate = res.list[i].dt_txt.split(` `);
@@ -64,6 +68,7 @@ function fetch5Day(cityLat, cityLon) {
 }
 
 function render5DayCard(date, icon, temp, wind, humidity, index, cityName) {
+    
     if (index >= 0 && index <= 4) {
         // Create elements
         const dateH4 = document.createElement(`h4`);
@@ -94,6 +99,15 @@ function render5DayCard(date, icon, temp, wind, humidity, index, cityName) {
         cityWind.textContent = wind
         cityHumid.textContent = humidity
     }
- 
+}
 
+let count = 0
+function createCityCard(city){
+    const cityCardDiv = document.getElementById(`city-card-div`)
+    const cityCard = document.createElement(`div`);
+    cityCard.textContent = city
+    cityCard.id = `city-card-id-${count}`
+    cityCard.classList.add(`card`, `col`, `mt-2`, `border`, `border-dark`, `rounded-0`, `m-2`, `bg-light`, `rounded-0`, `text-light`, `five-day-card`, `text-dark`)
+    cityCardDiv.appendChild(cityCard)
+    cityCard.addEventListener(`click`, ()=>fetchCity(city))
 }
