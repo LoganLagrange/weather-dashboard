@@ -1,0 +1,14 @@
+* {
+    font-family: 'Lilita One', cursive;
+}
+header {
+    background-image: linear-gradient(to right, rgb(116, 67, 252), rgb(53, 29, 121));
+    color: white;
+    padding: 30px;
+    display: flex;
+    justify-content: end;
+}
+h1 {
+    padding-right: 200px;
+}
+
